@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Event</title>
+    <style>
+        /* Your existing styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("images/background2.jpg");
+            background-repeat: no-repeat;
+            background-size: cover; 
+        }
+        
+        #addevent-header {
+		    background: linear-gradient(135deg, #FF4F81, #A500B5);
+		    color: white;
+		    text-align: center; 
+		    padding: 20px 20px;
+		    border-radius: 0 0 20px 20px;
+		    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+		}
+
+        h1 {
+            text-align: center;
+            font-family: Arial black;
+            font-size: 2.5rem;
+            color: white; 
+            margin-bottom: 20px;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);  
+            border-bottom: 2px solid rgba(255, 255, 255, 0.8); 
+            padding-bottom: 10px; 
+        }
+
+        #add-event-form {
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px); 
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            max-width: 500px;
+            margin: 50px auto;
+            font-family: 'Arial', sans-serif;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+        }
+        
+        #add-event-form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: white;
+        }
+        
+        #add-event-form input[type="text"],
+        #add-event-form input[type="number"],
+        #add-event-form textarea,
+        #add-event-form input[type="file"],
+        #add-event-form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        
+        #add-event-form input[type="text"]:focus,
+        #add-event-form input[type="number"]:focus,
+        #add-event-form textarea:focus,
+        #add-event-form select:focus {
+            border-color: #4CAF50; 
+            outline: none;
+        }
+
+        #add-event-form button {
+            background-color: #FF6F61;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+            width: 100%; 
+        }
+
+        #add-event-form button:hover {
+            background-color: #FF4C3B;
+        }
+
+        /* Error styling */
+        .error {
+            color: red;
+            font-size: 0.9rem;
+        }
+    </style>
+
+    <script>
+        function validateForm(event) {
+            let isValid = true;
+
+            // Clear previous error messages
+            document.querySelectorAll('.error').forEach(el => el.innerHTML = '');
+
+            // Validate event type
+            const eventType = document.getElementById('event_type');
+            if (eventType.value === '') {
+                showError(eventType, 'Please select an event type.');
+                isValid = false;
+            }
+
+            // Validate event venue
+            const eventVenue = document.getElementById('event_venue');
+            if (eventVenue.value.trim() === '') {
+                showError(eventVenue, 'Please enter the event venue.');
+                isValid = false;
+            }
+
+            // Validate number of participants
+            const nop = document.getElementById('nop');
+            if (nop.value.trim() === '' || isNaN(nop.value) || nop.value <= 0) {
+                showError(nop, 'Please enter a valid number of participants.');
+                isValid = false;
+            }
+
+            // Validate event description
+            const eventDescription = document.getElementById('event_description');
+            if (eventDescription.value.trim() === '') {
+                showError(eventDescription, 'Please enter a description for the event.');
+                isValid = false;
+            }
+
+            // Validate event image (file upload)
+            const eventImage = document.getElementById('event_image');
+            if (eventImage.files.length === 0) {
+                showError(eventImage, 'Please upload an image for the event.');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                event.preventDefault();  // Prevent form submission if validation fails
+            }
+        }
+
+        function showError(input, message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.innerHTML = message;
+            input.parentNode.insertBefore(errorDiv, input.nextSibling);  // Insert error message after the input field
+        }
+    </script>
+</head>
+<body>
+    <h1 id="addevent-header">Add New Event</h1>
+    <div id="add-event-form">
+        <form action="addEventServlet" method="POST" enctype="multipart/form-data" onsubmit="validateForm(event)">
+            <label for="eventType">Event Type:</label>
+            <select id="event_type" name="event_type" required>
+                <option value="">Select an event type</option>
+                <option value="wedding">Wedding</option>
+                <option value="birthday_party">Birthday Party</option>
+                <option value="corporate_event">Corporate Event</option>
+                <option value="anniversary_celebration">Anniversary Celebration</option>
+                <option value="baby_shower">Baby Shower</option>
+                <option value="graduation_party">Graduation Party</option>
+                <option value="concert">Concert</option>
+                <option value="charity_event">Charity Event</option>
+                <option value="family_reunion">Family Reunion</option>
+                <option value="holiday_party">Holiday Party</option>
+                <option value="conference">Conference</option>
+                <option value="seminar">Seminar</option>
+                <option value="workshop">Workshop</option>
+                <option value="prom">Prom</option>
+                <option value="sporting_event">Sporting Event</option>
+                <option value="picnic">Picnic</option>
+                <option value="themed_party">Themed Party</option>
+                <option value="farewell_party">Farewell Party</option>
+                <option value="art_exhibition">Art Exhibition</option>
+                <option value="fashion_show">Fashion Show</option>
+            </select>
+
+            <label for="event_venue">Event Venue:</label>
+            <input type="text" id="event_venue" name="event_venue" required>
+
+            <label for="nop">Number of Participants:</label>
+            <input type="number" id="nop" name="nop" required>
+
+            <label for="event_description">Event Description:</label>
+            <textarea id="event_description" name="event_description" required></textarea>
+
+            <label for="event_image">Event Image:</label>
+            <input type="file" id="event_image" name="event_image" accept="image/*" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
